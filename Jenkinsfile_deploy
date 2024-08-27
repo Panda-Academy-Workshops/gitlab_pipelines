@@ -1,0 +1,20 @@
+pipeline {
+    agent {
+        label 'agent'
+    }
+
+    options {
+      gitLabConnection('gitlab')
+      gitlabCommitStatus(name: 'jenkins_deploy')
+    }
+   
+    stages {
+        stage('Deploy to cloud') {
+            steps {
+
+                echo "Running terraform apply"
+
+            }
+        }
+    }
+}

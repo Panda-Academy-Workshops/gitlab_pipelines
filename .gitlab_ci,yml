@@ -1,0 +1,56 @@
+variables:
+  JENKINS_TOKEN: 11959b9083cd1bccc944c393ff50a2c75a
+
+stages:
+  - setup
+  - deploy
+  - test
+  - clean
+  - approve
+  - trigger_jenkins_job
+
+.docker_job:
+  image: docker:20.10.16
+  tags:
+    - docker
+  before_script:
+    - echo "Checking Docker info"
+
+deploy:
+  stage: deploy
+  extends: .docker_job
+  script:
+    - echo "Starting deploument"
+
+selenium_tests:
+  stage: test
+  image: python:3.9
+  tags:
+    - docker
+  before_script:
+    - echo "Installing Python requirements"
+  script:
+    - echo "Running Selenium tests"
+
+clean:
+  stage: clean
+  extends: .docker_job
+  script:
+    - echo "Removing frontend and backend containers"
+
+manual_approval:
+  stage: approve
+  script:
+    - echo "Waiting for manual approval"
+  when: manual
+
+trigger_jenkins_job:
+  stage: trigger_jenkins_job
+  image: curlimages/curl:latest
+  script:
+    - |
+      curl -X POST \
+        -u panda:$JENKINS_TOKEN \
+        "jenkins:8080/job/deploy/build"
+  needs:
+    - manual_approval
