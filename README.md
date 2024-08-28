@@ -19,4 +19,5 @@ docker exec -it gitlab-runner gitlab-runner register \
   --tag-list "docker,linux" \
   --executor "docker" \
   --docker-image alpine:latest \
-  --docker-network-mode "shared_network"```
+  --docker-network-mode "shared_network"
+```
