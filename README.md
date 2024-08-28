@@ -14,7 +14,7 @@ Then when on the machine:
 docker exec -it gitlab-runner gitlab-runner register \
   --non-interactive \
   --url "http://gitlab" \
-  --registration-token "glrt-h5-sEsqeuBZ3BmXL_7uD" \
+  --registration-token "<YOUR_TOKEN_HERE>" \
   --description "docker-runner" \
   --tag-list "docker,linux" \
   --executor "docker" \
